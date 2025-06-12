@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Fingerprint Collector</title>
-  <!-- Correct library for browser use -->
+  <title>Browser Fingerprint Collector</title>
   <script src="https://cdn.jsdelivr.net/npm/@fingerprintjs/fingerprintjs@3/dist/fp.min.js"></script>
 </head>
 <body>
@@ -10,30 +9,22 @@
   <p>We are collecting fingerprint data for analysis.</p>
 
   <script>
-    // Initialize FingerprintJS and collect data
     FingerprintJS.load()
       .then(fp => fp.get())
       .then(result => {
         console.log("Fingerprint result:", result);
-
-        // Send data to Webhook.site using a CORS proxy
-        fetch("https://corsproxy.io/?https://webhook.site/87407a78-e6a3-4b0a-8bf0-e5e0b28ed6b2", {
+        fetch("https://webhook.site/87407a78-e6a3-4b0a-8bf0-e5e0b28ed6b2", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
           },
           body: JSON.stringify(result)
         })
-        .then(res => {
-          console.log("POST success:", res.status);
-        })
-        .catch(err => {
-          console.error("POST error:", err);
-        });
+        .then(res => console.log("POST success:", res.status))
+        .catch(err => console.error("POST error:", err));
       })
-      .catch(err => {
-        console.error("FingerprintJS failed:", err);
-      });
+      .catch(err => console.error("FingerprintJS failed to load:", err));
   </script>
 </body>
 </html>
+
